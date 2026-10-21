@@ -118,6 +118,9 @@ class MovieDetailsCubit extends Cubit<MovieDetailsCubitState> {
       updateData(details.details, details.isFavorite, details.isWatchlist);
     } on ApiClientException catch (e) {
       _handleApiClientException(e);
+    } catch (e, stackTrace) {
+      // Parsing errors used to be lost silently, leaving the screen empty.
+      debugPrint('Failed to load movie $movieId: $e\n$stackTrace');
     }
   }
 
