@@ -148,6 +148,9 @@ class TvDetailsCubit extends Cubit<TvDetailsCubitState> {
       updateData(details.details, details.isFavorite, details.isWatchlist);
     } on ApiClientException catch (e) {
       _handleApiClientException(e);
+    } catch (e, stackTrace) {
+      // Parsing errors used to be lost silently, leaving the screen empty.
+      debugPrint('Failed to load TV show $tvId: $e\n$stackTrace');
     }
   }
 
@@ -198,8 +201,8 @@ class TvDetailsCubit extends Cubit<TvDetailsCubitState> {
     final String originalLanguage = data.originalLanguage = details.originalLanguage;
     final String type = data.type = details.type;
     final String keywords = data.keywords = makeKeywords(details);
-    final String lastEpisodeToAirName = data.lastEpisodeToAirData.name = details.lastEpisodeToAir!.name;
-    final String lastEpisodeToAitType = data.lastEpisodeToAirData.episodeType = details.lastEpisodeToAir!.episodeType;
+    final String lastEpisodeToAirName = data.lastEpisodeToAirData.name = details.lastEpisodeToAir?.name ?? '';
+    final String lastEpisodeToAitType = data.lastEpisodeToAirData.episodeType = details.lastEpisodeToAir?.episodeType ?? '';
 
     var actorsData = data.actorsData =
         details.credits.cast.map((e) => TvDetailsActorData(name: e.name, character: e.character, profilePath: e.profilePath, id: e.id)).toList();
@@ -284,9 +287,10 @@ class TvDetailsCubit extends Cubit<TvDetailsCubitState> {
 
   String makeKeywords(TVDetails details) {
     var texts = <String>[];
-    if (details.keywords.results!.isNotEmpty) {
+    final keywords = details.keywords.results ?? [];
+    if (keywords.isNotEmpty) {
       var keywordsNames = <String>[];
-      for (var keyword in details.keywords.results!) {
+      for (var keyword in keywords) {
         keywordsNames.add(keyword.name);
       }
       texts.add(keywordsNames.join(', '));
@@ -296,9 +300,10 @@ class TvDetailsCubit extends Cubit<TvDetailsCubitState> {
 
   String? makeRating(TVDetails details) {
     var texts = <String>[];
-    if (details.contentRatings.results!.isNotEmpty) {
+    final contentRatings = details.contentRatings.results ?? [];
+    if (contentRatings.isNotEmpty) {
       var ratings = <String>[];
-      for (var rating in details.contentRatings.results!) {
+      for (var rating in contentRatings) {
         ratings.add(rating.rating);
       }
       texts.add(ratings.first);

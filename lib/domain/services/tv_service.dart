@@ -1,5 +1,6 @@
 // Project imports:
 import 'package:comics_db_app/domain/api_client/account_api_client.dart';
+import 'package:comics_db_app/domain/api_client/api_client_exception.dart';
 import 'package:comics_db_app/domain/api_client/movie_and_tv_api_client.dart';
 import 'package:comics_db_app/domain/data_providers/session_data_provider.dart';
 import 'package:comics_db_app/ui/widgets/tv_details/components/tv_details_local.dart';
@@ -15,8 +16,14 @@ class TvService {
     var isFavorite = false;
     var isWatchlist = false;
     if (sessionId != null) {
-      isFavorite = await _tvApiClient.isFavoriteTv(tvId, sessionId);
-      isWatchlist = await _tvApiClient.isFavoriteTv(tvId, sessionId);
+      // Account state is optional: an expired session must not hide the TV show details.
+      try {
+        isFavorite = await _tvApiClient.isFavoriteTv(tvId, sessionId);
+        isWatchlist = await _tvApiClient.isFavoriteTv(tvId, sessionId);
+      } on ApiClientException {
+        isFavorite = false;
+        isWatchlist = false;
+      }
     }
     return TvDetailsLocal(details: tvDetails, isFavorite: isFavorite, isWatchlist: isWatchlist);
   }
