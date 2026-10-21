@@ -363,6 +363,7 @@ class TvDetailsCubit extends Cubit<TvDetailsCubitState> {
   }
 
   String? makeAirDateOfSeason(TVDetails details) {
+    if (details.seasons.isEmpty) return null;
     var texts = <String>[];
     final lastAirDate = details.seasons.first.airDate;
     if (lastAirDate != null) {
