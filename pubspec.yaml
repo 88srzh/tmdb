@@ -33,7 +33,7 @@ dependencies:
   convex_bottom_bar: ^3.2.0
   youtube_player_flutter: ^8.1.0
   loading_indicator: ^4.0.0
-  flutter_native_splash: ^2.3.7
+  flutter_native_splash: ^2.4.8
   provider: ^6.1.1
   flutter_bloc: ^9.0.0
   bloc_concurrency: ^0.3.0
@@ -43,11 +43,11 @@ dependencies:
   freezed_annotation: ^3.1.0
   equatable: ^3.0.0
   import_sorter: ^4.6.0
-  shared_preferences: ^2.2.2
+  shared_preferences: ^2.5.6
   flutter_hooks: ^0.21.0
   animations: ^3.0.0
   animated_button_bar: ^1.0.0
-  url_launcher: ^6.2.4
+  url_launcher: ^6.3.3
   jiffy: ^6.2.1
 
 dev_dependencies:
@@ -55,7 +55,7 @@ dev_dependencies:
     sdk: flutter
 
   json_serializable: ^6.7.1
-  build_runner: ^2.4.8
+  build_runner: ^2.16.2
   dependency_validator: ^5.0.0
   flutter_lints: ^6.0.0
 
