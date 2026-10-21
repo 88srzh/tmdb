@@ -50,7 +50,13 @@ class TvDetailsSeasonsWidget extends StatelessWidget {
             clipBehavior: Clip.hardEdge,
             child: Row(
               children: [
-                posterPath != null ? Image.network(ImageDownloader.imageUrl(posterPath), width: 95.0) : Image.asset(AppImages.noImageAvailable),
+                posterPath != null
+                    ? Image.network(
+                        ImageDownloader.imageUrl(posterPath),
+                        width: 95.0,
+                        errorBuilder: (context, error, stackTrace) => Image.asset(AppImages.noImageAvailable, width: 95.0),
+                      )
+                    : Image.asset(AppImages.noImageAvailable, width: 95.0),
                 const SizedBox(width: 15.0),
                 Expanded(
                   child: Column(
