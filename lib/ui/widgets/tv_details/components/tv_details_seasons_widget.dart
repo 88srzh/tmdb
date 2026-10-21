@@ -23,13 +23,15 @@ class TvDetailsSeasonsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var cubit = context.watch<TvDetailsCubit>();
-    late final String? posterPath = cubit.state.seasons.last.posterPath;
-    late final String lastSeasonName = cubit.state.seasons.last.name;
-    late final double voteAverage = cubit.state.seasons.last.voteAverage! * 10;
+    if (cubit.state.seasons.isEmpty) return const SizedBox.shrink();
+    final lastSeason = cubit.state.seasons.last;
+    final String? posterPath = lastSeason.posterPath;
+    final String lastSeasonName = lastSeason.name;
+    final double voteAverage = (lastSeason.voteAverage ?? 0) * 10;
     final String? airDateByYear = cubit.state.airDateOfSeason;
     final String? lastAirDate = cubit.state.lastAirDate;
-    late final int episodeCount = cubit.state.seasons.last.episodeCount;
-    late final int seasonNumber = cubit.state.seasons.last.seasonNumber;
+    final int episodeCount = lastSeason.episodeCount;
+    final int seasonNumber = lastSeason.seasonNumber;
     final String lastEpisodeToAirName = cubit.state.lastEpisodeToAirName;
     final String lastEpisodeToAirType = cubit.state.lastEpisodeToAirType;
     final String name = cubit.state.name;
@@ -137,7 +139,9 @@ class TvDetailsSeasonsWidget extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 5.0),
                               child: Text(
-                                '${S.of(context).season} ${lastEpisodeToAirType[0].toUpperCase()}${lastEpisodeToAirType.substring(1)}',
+                                lastEpisodeToAirType.isEmpty
+                                    ? S.of(context).season
+                                    : '${S.of(context).season} ${lastEpisodeToAirType[0].toUpperCase()}${lastEpisodeToAirType.substring(1)}',
                                 style: TextStyle(color: reverseTextColor, fontSize: 11),
                               ),
                             ),
