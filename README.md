@@ -42,3 +42,19 @@
 ```shell
 git clone --depth 5 https://github.com/88srzh/tmdb
 ```
+
+#### Add your TMDb API key
+
+Get an API key (v3) at https://www.themoviedb.org/settings/api, then:
+
+```shell
+cp secrets.example.json secrets.json
+# put your key into secrets.json as the TMDB_API_KEY value
+```
+
+`secrets.json` is git-ignored. Pass it on every run and build:
+
+```shell
+flutter run --dart-define-from-file=secrets.json
+flutter build apk --dart-define-from-file=secrets.json
+```

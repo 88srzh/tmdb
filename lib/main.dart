@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 // Project imports:
+import 'package:comics_db_app/configuration/configuration.dart';
 import 'package:comics_db_app/ui/widgets/app/my_app.dart';
 
 // TODO delete this class when go to prod
@@ -21,6 +22,9 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 void main() async {
+  if (Configuration.apiKey.isEmpty) {
+    throw StateError('TMDB_API_KEY is not set: run with --dart-define-from-file=secrets.json (see README)');
+  }
   FlutterError.onError = (FlutterErrorDetails details) {
     if (details.library == 'image resource service' && details.exception.toString().contains('404')) {
       if (kDebugMode) {
