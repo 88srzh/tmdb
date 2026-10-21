@@ -44,3 +44,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# TMDb API key, passed via --dart-define-from-file
+secrets.json
