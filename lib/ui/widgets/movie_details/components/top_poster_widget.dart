@@ -40,8 +40,7 @@ class _MovieTopPosterWidgetState extends State<MovieTopPosterWidget> {
     final genres = cubit.state.genres;
     final posterPath = cubit.state.posterPath;
     final backdropPath = cubit.state.backdropPath;
-    late String trailerKey = cubit.state.videos.first.key;
-    if (cubit.state.videos.isEmpty) return const SizedBox.shrink();
+    final videos = cubit.state.videos;
     return Stack(
       children: [
         Positioned(
@@ -50,7 +49,7 @@ class _MovieTopPosterWidgetState extends State<MovieTopPosterWidget> {
             child: AspectRatio(
               aspectRatio: 1.778,
               child: CachedNetworkImage(
-                imageUrl: ImageDownloader.imageUrl(backdropPath!),
+                imageUrl: ImageDownloader.imageUrl(backdropPath ?? ''),
                 placeholder: (context, url) => const LoadingIndicatorWidget(),
                 errorWidget: (context, url, dynamic error) => Image.asset(AppImages.noImageAvailable),
               ),
@@ -138,33 +137,34 @@ class _MovieTopPosterWidgetState extends State<MovieTopPosterWidget> {
                     CustomPosterTopLeftAlignTextRating(text: popularityInt.toString()),
                   ],
                 ),
-                Row(
-                  children: [
-                    Icon(
-                      MdiIcons.youtube,
-                      color: context.read<ThemeBloc>().isDarkTheme ? DarkThemeColors.ratingThumb : DarkThemeColors.kPrimaryColor,
-                      size: 14,
-                    ),
-                    const SizedBox(width: 4),
-                    InkWell(
-                      // add popup to trailer
-                      onTap: () {
-                        showDialog<Widget>(
-                          context: context,
-                          builder: (context) => Stack(
-                            children: [
-                              Positioned(
-                                top: 250,
-                                child: MovieDetailsTrailerWidget(youtubeKey: trailerKey),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                      child: const CustomPosterTopLeftAlignText(text: 'Play Trailer', maxLines: 1),
-                    ),
-                  ],
-                ),
+                if (videos.isNotEmpty)
+                  Row(
+                    children: [
+                      Icon(
+                        MdiIcons.youtube,
+                        color: context.read<ThemeBloc>().isDarkTheme ? DarkThemeColors.ratingThumb : DarkThemeColors.kPrimaryColor,
+                        size: 14,
+                      ),
+                      const SizedBox(width: 4),
+                      InkWell(
+                        // add popup to trailer
+                        onTap: () {
+                          showDialog<Widget>(
+                            context: context,
+                            builder: (context) => Stack(
+                              children: [
+                                Positioned(
+                                  top: 250,
+                                  child: MovieDetailsTrailerWidget(youtubeKey: videos.first.key),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        child: const CustomPosterTopLeftAlignText(text: 'Play Trailer', maxLines: 1),
+                      ),
+                    ],
+                  ),
               ],
             ),
           ),
@@ -180,7 +180,7 @@ class _MovieTopPosterWidgetState extends State<MovieTopPosterWidget> {
               child: AspectRatio(
                 aspectRatio: 1.778,
                 child: CachedNetworkImage(
-                  imageUrl: ImageDownloader.imageUrl(posterPath!),
+                  imageUrl: ImageDownloader.imageUrl(posterPath ?? ''),
                   placeholder: (context, url) => const LoadingIndicatorWidget(),
                   errorWidget: (context, url, dynamic error) => Image.asset(AppImages.noImageAvailable),
                 ),
