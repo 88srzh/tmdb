@@ -37,14 +37,14 @@ dependencies:
   provider: ^6.1.1
   flutter_bloc: ^9.0.0
   bloc_concurrency: ^0.3.0
-  cached_network_image: ^4.0.6
+  cached_network_image: ^4.0.7
   expandable_text: 2.3.0
   freezed: ^4.0.0
   freezed_annotation: ^3.1.0
   equatable: ^3.0.0
   import_sorter: ^4.6.0
   shared_preferences: ^2.5.6
-  flutter_hooks: ^0.21.0
+  flutter_hooks: ^0.21.4
   animations: ^3.0.0
   animated_button_bar: ^1.0.0
   url_launcher: ^6.3.3
